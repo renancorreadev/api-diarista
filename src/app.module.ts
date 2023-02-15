@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmConfigService } from './database/typeorm-config';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { ServicosModule } from './servicos/servicos.module';
 
 @Module({
   imports: [
@@ -11,6 +13,8 @@ import { ConfigModule } from '@nestjs/config';
       useClass: TypeOrmConfigService,
     }),
     ConfigModule.forRoot(),
+    UsersModule,
+    ServicosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
