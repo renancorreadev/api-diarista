@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { AppModule } from './app.module';
+import * as methodOverride from 'method-override';
 import * as exphbs from 'express-handlebars';
 
 async function bootstrap() {
@@ -19,6 +20,7 @@ async function bootstrap() {
       defaultLayout: 'main',
     }),
   );
+  app.use(methodOverride('_method'));
   await app.listen(3000);
 }
 bootstrap();
