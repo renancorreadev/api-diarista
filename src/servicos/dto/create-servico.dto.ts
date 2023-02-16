@@ -45,6 +45,7 @@ export class CreateServicoDto {
   valorQuarto: number;
 
   @IsNumber({}, { message: 'Campo horas quarto deve ser um número' })
+  @IsNumber({}, { message: 'Campo horas quarto deve ser um número' })
   @Min(0, { message: 'Campo horas quarto deve ser maior ou igual a 0' })
   @Max(10, { message: 'Campo quantidade horas deve ser menor ou igual a 0' })
   @Type(() => Number)
