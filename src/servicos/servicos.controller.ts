@@ -30,6 +30,14 @@ export class ServicosController {
     //
   }
 
+  @Get('index')
+  @Render('servicos/index')
+  async listarServicos() {
+    const servicos = await this.servicosRepository.find();
+    console.log(servicos);
+    return { servicos: servicos };
+  }
+
   @Post()
   @Redirect('servicos/cadastrar')
   async Cadastrar(@Body() createServicoDto: CreateServicoDto) {
