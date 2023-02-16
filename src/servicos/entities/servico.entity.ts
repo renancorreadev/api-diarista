@@ -24,44 +24,35 @@ export class Servico {
   porcentagem: number;
 
   @Column()
-  habilidade: string;
-
-  /** Valores Quarto */
-  @Column()
   valorQuarto: number;
 
   @Column()
   horasQuarto: number;
 
-  /** Valores Sala */
   @Column()
   valorSala: number;
 
   @Column()
   horasSala: number;
 
-  /** Valores Banheiro */
   @Column()
   valorBanheiro: number;
 
   @Column()
-  horasSBanheiro: number;
+  horasBanheiro: number;
 
-  /** Valores Cozinha */
   @Column()
   valorCozinha: number;
 
   @Column()
   horasCozinha: number;
 
-  /** Valores Quintal */
   @Column()
   valorQuintal: number;
 
   @Column()
   horasQuintal: number;
 
-  /** Valores Outros */
   @Column()
   valorOutros: number;
 
@@ -85,5 +76,5 @@ export class Servico {
     default: () => 'CURRENT_TIMESTAMP(6)',
     onUpdate: 'CURRENT_TIMESTAMP(6)',
   })
-  updatedAt: Date;
+  updateAt: Date;
 }
