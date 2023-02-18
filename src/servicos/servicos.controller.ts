@@ -1,3 +1,4 @@
+import { CreateException } from './../common/filters/create-exception.filter';
 import {
   Controller,
   Get,
@@ -8,6 +9,8 @@ import {
   Delete,
   Render,
   Redirect,
+  Request,
+  UseFilters,
 } from '@nestjs/common';
 import { ServicosService } from './servicos.service';
 import { CreateServicoDto } from './dto/create-servico.dto';
@@ -28,8 +31,12 @@ export class ServicosController {
 
   @Get('create')
   @Render('servicos/cadastrar')
-  exibirCadastrar() {
-    //
+  exibirCadastrar(@Request() req) {
+    return {
+      message: req.flash('message'),
+      oldData: req.flash('oldData'),
+      alert: req.flash('alert'),
+    };
   }
 
   @Get('index')
@@ -40,6 +47,7 @@ export class ServicosController {
   }
 
   @Post()
+  @UseFilters(CreateException)
   @Redirect('/admin/servicos/index')
   async cadastrar(@Body() createServicoDto: CreateServicoDto) {
     createServicoDto.valorBanheiro = this.utils.formatDecimal(
@@ -80,9 +88,15 @@ export class ServicosController {
 
   @Get(':id/edit')
   @Render('servicos/editar')
-  async atualizarServico(@Param('id') id: number) {
+  async atualizarServico(@Param('id') id: number, @Request() req) {
     const servico = await this.servicosRepository.findOneBy({ id: id });
-    return { servico: servico };
+
+    return {
+      message: req.flash('message'),
+      oldData: req.flash('oldData'),
+      alert: req.flash('alert'),
+      servico: servico,
+    };
   }
 
   @Patch(':id/edit')
