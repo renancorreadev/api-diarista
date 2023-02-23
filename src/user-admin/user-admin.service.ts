@@ -74,8 +74,12 @@ export class UserAdminService {
     }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} userAdmin`;
+  async remove(id: number) {
+    const result = await this.userRepository.delete(id);
+
+    if (result.affected === 0) {
+      throw new NotFoundException('Nenhum Id Encontrado.');
+    }
   }
 
   async setPassword(password: string) {

@@ -77,7 +77,8 @@ export class UserAdminController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userAdminService.remove(+id);
+  @Redirect('/admin/users/index')
+  remove(@Param('id') id: number) {
+    return this.userAdminService.remove(id);
   }
 }
