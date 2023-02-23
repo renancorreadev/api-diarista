@@ -20,7 +20,7 @@ export class UserAdminController {
   @Get('index')
   @Render('users/index')
   async displayUsers() {
-    return { name: 'Renan', email: 'test@test.com.br', id: '1' };
+    return { users: await this.userAdminService.findAll() };
   }
 
   @Get('create')

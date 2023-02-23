@@ -34,8 +34,8 @@ export class UserAdminService {
     return 'This action adds a new userAdmin';
   }
 
-  findAll() {
-    return `This action returns all userAdmin`;
+  async findAll() {
+    return await this.userRepository.find();
   }
 
   findOne(id: number) {
