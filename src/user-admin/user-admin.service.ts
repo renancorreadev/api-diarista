@@ -42,8 +42,27 @@ export class UserAdminService {
     return `This action returns a #${id} userAdmin`;
   }
 
-  update(id: number, updateUserAdminDto: UpdateUserAdminDto) {
-    return `This action updates a #${id} userAdmin`;
+  async update(id: number, updateUserAdminDto: UpdateUserAdminDto) {
+    const userId = await this.userRepository.findOneBy({ id: id });
+    const userEmail = await this.userRepository.findOneBy({
+      email: updateUserAdminDto.email,
+    });
+
+    if (
+      updateUserAdminDto.password !== updateUserAdminDto.passwordConfirmation
+    ) {
+      throw new Error('Senhas dos campos não conferem');
+    } else if (!userEmail || userEmail.email === userId.email) {
+      userId.name = updateUserAdminDto.name;
+      userId.email = updateUserAdminDto.email;
+      userId.password = await this.setPassword(updateUserAdminDto.password);
+
+      await this.userRepository.save(userId);
+
+      return userId;
+    } else if (userEmail.email !== userId.email) {
+      throw new BadRequestException('Email já cadastrado! Use outro e-mail.');
+    }
   }
 
   remove(id: number) {
