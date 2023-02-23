@@ -2,12 +2,14 @@ import {
   BeforeInsert,
   Column,
   CreateDateColumn,
+  Entity,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import * as bcrypt from 'bcrypt';
 
+@Entity()
 export class UserAdmin {
   @PrimaryGeneratedColumn('increment')
   id: number;

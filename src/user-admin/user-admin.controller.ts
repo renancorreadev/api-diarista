@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Render,
+  Redirect,
 } from '@nestjs/common';
 import { UserAdminService } from './user-admin.service';
 import { CreateUserAdminDto } from './dto/create-user-admin.dto';
@@ -18,11 +19,18 @@ export class UserAdminController {
 
   @Get('index')
   @Render('users/index')
-  async listarUsuarios() {
+  async displayUsers() {
     return { name: 'Renan', email: 'test@test.com.br', id: '1' };
   }
 
+  @Get('create')
+  @Render('users/register')
+  async displayUserRegister() {
+    //
+  }
+
   @Post()
+  @Redirect('/admin/users/index')
   create(@Body() createUserAdminDto: CreateUserAdminDto) {
     return this.userAdminService.create(createUserAdminDto);
   }
