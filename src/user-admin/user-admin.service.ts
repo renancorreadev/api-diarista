@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserAdminDto } from './dto/create-user-admin.dto';
@@ -39,7 +43,12 @@ export class UserAdminService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} userAdmin`;
+    const user = this.userRepository.findOneBy({ id: id });
+
+    if (!user) {
+      throw new NotFoundException();
+    }
+    return this.userRepository.findOneBy({ id: id });
   }
 
   async update(id: number, updateUserAdminDto: UpdateUserAdminDto) {

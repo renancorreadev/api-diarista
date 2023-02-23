@@ -14,6 +14,7 @@ import {
 import { ServicosService } from './servicos.service';
 import { CreateServicoDto } from './dto/create-servico.dto';
 import { UpdateServicoDto } from './dto/update-servico.dto';
+import { PatchException } from 'src/common/filters/patch-exceptions.filter';
 
 @Controller('admin/servicos')
 export class ServicosController {
@@ -58,6 +59,7 @@ export class ServicosController {
   }
 
   @Patch(':id/edit')
+  @UseFilters(PatchException)
   @Redirect('/admin/servicos/index')
   async update(
     @Param('id') id: number,

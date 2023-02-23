@@ -10,7 +10,7 @@ import { Response } from 'express';
 import { Utils } from '../../utils/utils';
 
 @Catch(HttpException)
-export class PatchCreateException implements ExceptionFilter {
+export class PatchException implements ExceptionFilter {
   constructor(private utils: Utils) {}
 
   catch(exception: HttpException, host: ArgumentsHost) {
