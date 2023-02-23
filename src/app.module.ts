@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { ServicosModule } from './servicos/servicos.module';
 import { UserAdminModule } from './user-admin/user-admin.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserAdminModule } from './user-admin/user-admin.module';
     ConfigModule.forRoot(),
     ServicosModule,
     UserAdminModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
