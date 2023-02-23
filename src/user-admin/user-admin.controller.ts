@@ -8,10 +8,13 @@ import {
   Delete,
   Render,
   Redirect,
+  UseFilters,
+  Request,
 } from '@nestjs/common';
 import { UserAdminService } from './user-admin.service';
 import { CreateUserAdminDto } from './dto/create-user-admin.dto';
 import { UpdateUserAdminDto } from './dto/update-user-admin.dto';
+import { CreateException } from 'src/common/filters/create-exception.filter';
 
 @Controller('admin/users')
 export class UserAdminController {
@@ -25,11 +28,16 @@ export class UserAdminController {
 
   @Get('create')
   @Render('users/register')
-  async displayUserRegister() {
-    //
+  async displayUserRegister(@Request() req) {
+    return {
+      message: req.flash('message'),
+      oldData: req.flash('oldData'),
+      alert: req.flash('alert'),
+    };
   }
 
   @Post()
+  @UseFilters(CreateException)
   @Redirect('/admin/users/index')
   create(@Body() createUserAdminDto: CreateUserAdminDto) {
     return this.userAdminService.create(createUserAdminDto);
