@@ -1,11 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Render,
+} from '@nestjs/common';
 import { UserAdminService } from './user-admin.service';
 import { CreateUserAdminDto } from './dto/create-user-admin.dto';
 import { UpdateUserAdminDto } from './dto/update-user-admin.dto';
 
-@Controller('user-admin')
+@Controller('admin/users')
 export class UserAdminController {
   constructor(private readonly userAdminService: UserAdminService) {}
+
+  @Get('index')
+  @Render('users/index')
+  async listarUsuarios() {
+    return { name: 'Renan', email: 'test@test.com.br', id: '1' };
+  }
 
   @Post()
   create(@Body() createUserAdminDto: CreateUserAdminDto) {
@@ -23,7 +38,10 @@ export class UserAdminController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserAdminDto: UpdateUserAdminDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateUserAdminDto: UpdateUserAdminDto,
+  ) {
     return this.userAdminService.update(+id, updateUserAdminDto);
   }
 
