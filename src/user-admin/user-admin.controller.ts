@@ -10,23 +10,30 @@ import {
   Redirect,
   UseFilters,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import { UserAdminService } from './user-admin.service';
 import { CreateUserAdminDto } from './dto/create-user-admin.dto';
 import { UpdateUserAdminDto } from './dto/update-user-admin.dto';
 import { CreateException } from 'src/common/filters/create-exception.filter';
 import { PatchException } from 'src/common/filters/patch-exceptions.filter';
+import { AuthenticatedGuard } from 'src/common/guards/authentication.guard';
+import { AuthException } from 'src/common/filters/auth-exceptions.filter';
 
 @Controller('admin/users')
 export class UserAdminController {
   constructor(private readonly userAdminService: UserAdminService) {}
 
+  @UseGuards(AuthenticatedGuard)
+  @UseFilters(AuthException)
   @Get('index')
   @Render('users/index')
   async displayUsers() {
     return { users: await this.userAdminService.findAll() };
   }
-
+  e;
+  @UseGuards(AuthenticatedGuard)
+  @UseFilters(AuthException)
   @Get('create')
   @Render('users/register')
   async displayUserRegister(@Request() req) {
@@ -37,23 +44,17 @@ export class UserAdminController {
     };
   }
 
-  @Post()
+  @UseGuards(AuthenticatedGuard)
   @UseFilters(CreateException)
+  @Post()
   @Redirect('/admin/users/index')
   create(@Body() createUserAdminDto: CreateUserAdminDto) {
     return this.userAdminService.create(createUserAdminDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userAdminService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userAdminService.findOne(+id);
-  }
-
+  @UseGuards(AuthenticatedGuard)
+  @UseFilters(AuthException)
+  @UseFilters(CreateException)
   @Get(':id/edit')
   @Render('users/edit')
   async editUser(@Param('id') id: number, @Request() req) {
@@ -66,8 +67,10 @@ export class UserAdminController {
     };
   }
 
-  @Patch(':id/edit')
+  @UseGuards(AuthenticatedGuard)
+  @UseFilters(AuthException)
   @UseFilters(PatchException)
+  @Patch(':id/edit')
   @Redirect('/admin/users/index')
   async update(
     @Param('id') id: number,
@@ -76,6 +79,7 @@ export class UserAdminController {
     return await this.userAdminService.update(id, updateUserAdminDto);
   }
 
+  @UseGuards(AuthenticatedGuard)
   @Delete(':id')
   @Redirect('/admin/users/index')
   remove(@Param('id') id: number) {
